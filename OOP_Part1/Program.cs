@@ -1,4 +1,5 @@
 ﻿using OOP_Part1;
+using System.Xml.Linq;
 
 namespace OOP_Part1
 {     // Hotel Management System
@@ -28,6 +29,49 @@ namespace OOP_Part1
 
     }
 
+    //    class Guest
+    //Attributes
+    //guestId
+    //guestName
+    //roomNumber
+    //checkInDate
+    //totalNights
+    //Methods
+    //displayGuest()
+    //calculateTotalCost()
+
+    public class Guest
+    {
+        //Attributes
+        public string guestId { get; }
+        public string guestName;
+        public int roomNumber;
+        public string checkInDate;
+        public int totalNights;
+
+        //Methods
+        public void displayGuest()
+        {
+            Console.WriteLine("Guest ID:      " + guestId);
+            Console.WriteLine("Guest name:    " + guestName);
+            Console.WriteLine("Room Number:   " + roomNumber);
+            Console.WriteLine("check-In Date: " + checkInDate);
+            Console.WriteLine("totalNights:   " + totalNights);
+
+
+        }
+
+        public void calculateTotalCost()
+        {
+
+
+
+
+        }
+
+
+
+    }
 
 
 
@@ -36,7 +80,7 @@ namespace OOP_Part1
 
         static List<Room> rooms = new List<Room>();    // create preload list of room 
 
-
+        static List<Guest> guests = new List<Guest>();
         public static void AddRoom()
         {
 
@@ -88,10 +132,21 @@ namespace OOP_Part1
 
 
         }
+        public static void RegGuest()
+        {
+            Guest guest = new Guest();  // to create object
 
 
 
-        static void Main(string[] args)
+
+
+
+
+
+        }
+
+
+            static void Main(string[] args)
         {
 
            // to add it in rooms list , is available by default true no need to write it here
@@ -126,11 +181,11 @@ namespace OOP_Part1
                 switch (choice)
                 {
 
-                    case 1:
+                    case 1:      // Case 01: Add New Room
                         AddRoom();
                         break;
 
-                    case 2:
+                    case 2:    // Case 02 Register New Guest
                         break;
 
                     case 3:
