@@ -13,8 +13,12 @@ namespace OOP_Part1
         public double pricePerNight;  // if i want to encapsulate later : public double PricePerNight { get; set; }
         public bool isAvailable; // by default the room be available  
 
-        public Room()     // adding construtor because i want by default room be available
+       
+        public Room(int room , string type , double price )// adding construtor because i want by default room be available
         {
+            roomNumber = room ;
+            roomType = type ;
+            pricePerNight = price ;
             isAvailable = true; // every new room is available by default
         }
 
@@ -29,16 +33,6 @@ namespace OOP_Part1
 
     }
 
-    //    class Guest
-    //Attributes
-    //guestId
-    //guestName
-    //roomNumber
-    //checkInDate
-    //totalNights
-    //Methods
-    //displayGuest()
-    //calculateTotalCost()
 
     public class Guest
     {
@@ -49,6 +43,21 @@ namespace OOP_Part1
         public string checkInDate;
         public int totalNights;
 
+        // should be inside guest class the construtor
+        public Guest(string Id, string Name , string check_InDate, int total_Nights) // adding construtor // roomNumber as default zero
+
+        {
+
+            guestId = Id; 
+            guestName = Name;  // save the guest name that entered by the user into the guestName attribute
+            checkInDate = check_InDate;
+            totalNights = total_Nights;
+
+            roomNumber = 0; // no room assigned yet , will book in case 03 , here just as default i do it 0
+
+        }
+
+
         //Methods
         public void displayGuest()
         {
@@ -58,16 +67,18 @@ namespace OOP_Part1
             Console.WriteLine("check-In Date: " + checkInDate);
             Console.WriteLine("totalNights:   " + totalNights);
 
-
         }
 
-        public void calculateTotalCost()
-        {
+
+
+
+        //    public void calculateTotalCost()
+        //    {
 
 
 
 
-        }
+        //    }
 
 
 
@@ -78,86 +89,105 @@ namespace OOP_Part1
     internal class Program
     {
 
-        static List<Room> rooms = new List<Room>();    // create preload list of room 
-
-        static List<Guest> guests = new List<Guest>();
-        public static void AddRoom()
+        // here the defined function
+        public static void AddRoom(List<Room> rooms)
         {
 
-            Room room = new Room(); //  to create a new Room object
 
 
             Console.Write("Enter room number: ");
-            room.roomNumber = int.Parse(Console.ReadLine());
+            int roomNumber = int.Parse(Console.ReadLine());
 
-            if (rooms.Any(r => r.roomNumber == room.roomNumber))   // i use LINQ Any()for the duplicate check to check if a room with the same room number already exists in the rooms list
+
+            if (rooms.Any(r => r.roomNumber == roomNumber))   // i use LINQ Any()for the duplicate check to check if a room with the same room number already exists in the rooms list
 
             {
                 Console.WriteLine("Room number already exists");
                 return;  // to go back to the main
             }
 
-            if (room.roomNumber <= 0)      // to validate the number should be more than 0 and should be positive
+            if (roomNumber <= 0)      // to validate the number should be more than 0 and should be positive
             {
                 Console.WriteLine("Room number must be positive and more than 0");
                 return;
             }
 
             Console.Write("Enter room type (single/double/suite): ");   // to avoid adding the room type wrong
-            room.roomType = Console.ReadLine().Trim().ToLower();
+            string roomType = Console.ReadLine().Trim().ToLower();
 
-            if (room.roomType != "single" &&
-                room.roomType != "double" &&
-                room.roomType != "suite")
+
+            if (roomType != "single" &&
+                roomType != "double" &&
+                roomType != "suite")
             {
                 Console.WriteLine("Invalid room type.");
                 return;
             }
 
             Console.Write("Enter price per night: ");
-            room.pricePerNight = double.Parse(Console.ReadLine());
+            double pricePerNight = double.Parse(Console.ReadLine());
 
-            if (room.pricePerNight <= 0)   // to validate the number should be more than 0 and should be positive
+
+            if (pricePerNight <= 0)   // to validate the number should be more than 0 and should be positive
             {
 
                 Console.WriteLine("Price must be positive and more than 0");
                 return;
             }
 
-            rooms.Add(room);  // here to add room object in rooms list
+
+            
+            rooms.Add(new Room(roomNumber, roomType, pricePerNight)); // here to add room object in rooms list
+
 
             Console.WriteLine("Room added successfully");
-            room.displayRoom(); //here i call display method to display all room info
+
+            Console.WriteLine("--- All Rooms ---");
+            foreach (Room r in rooms) // 
+            {
+                r.displayRoom();  // display one room at a time
+            }
             Console.WriteLine("Total Rooms: " + rooms.Count); // room count
 
 
-        }
-        public static void RegGuest()
-        {
-            Guest guest = new Guest();  // to create object
-
-
-
-
-
-
-
 
         }
-
-
-            static void Main(string[] args)
+        public static void RegGuest(List<Guest> guests)
         {
 
-           // to add it in rooms list , is available by default true no need to write it here
-            rooms.Add(new Room { roomNumber = 101, roomType = "single", pricePerNight = 25 });
-            rooms.Add(new Room { roomNumber = 102, roomType = "double", pricePerNight = 50 });
-            rooms.Add(new Room { roomNumber = 103, roomType = "single", pricePerNight = 25 });
-            rooms.Add(new Room { roomNumber = 104, roomType = "suite", pricePerNight = 100 });
-            rooms.Add(new Room { roomNumber = 105, roomType = "single", pricePerNight = 25 });
-            rooms.Add(new Room { roomNumber = 106, roomType = "double", pricePerNight = 50 });
-            rooms.Add(new Room { roomNumber = 107, roomType = "suite", pricePerNight = 100 });
 
+            Console.Write("Enter Guest name:   ");
+            string guestName = Console.ReadLine().Trim().ToLower();
+
+
+            Console.Write("Enter Check-In Date (DD/MM/YYYY):   ");
+            string checkInDate = Console.ReadLine();
+
+
+            Console.Write("number of nights:   ");
+            int totalNights = int.Parse(Console.ReadLine());
+
+            string guestId;
+            guestId = "G" + (guests.Count + 1).ToString("D3"); // here to generate the ID + converted to string with at least 3 digits.   // Auto-generate the guest ID from the current size of the guests list.
+
+           guests.Add(new Guest(guestId, guestName, checkInDate, totalNights));   // add guest object in guests list
+
+        }
+
+
+        static void Main(string[] args)
+        {
+
+            List<Room> rooms = new List<Room>() {         // to add it in rooms list , is available by default true no need to write it here  // create preload list of room 
+            new Room (101, "single", 25 ),
+            new Room (102, "double", 50),
+            new Room (103, "single", 25),
+            new Room (104, "suite", 100),
+            new Room (105, "double", 50 ),
+            new Room (106, "suite", 100 ),
+           };
+
+            List<Guest> guests = new List<Guest>();
 
 
             bool exit = false;
@@ -182,10 +212,11 @@ namespace OOP_Part1
                 {
 
                     case 1:      // Case 01: Add New Room
-                        AddRoom();
+                        AddRoom(rooms);  // here to call function with list
                         break;
 
                     case 2:    // Case 02 Register New Guest
+                        RegGuest(guests);
                         break;
 
                     case 3:
@@ -210,7 +241,7 @@ namespace OOP_Part1
 
             }
         }
-    }
+    }  
 }
 
 
