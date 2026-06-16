@@ -1,9 +1,49 @@
-﻿namespace OOP_Part1
+﻿using OOP_Part1;
+
+namespace OOP_Part1
 {     // Hotel Management System
+
+
+    public class Room
+    {
+        // Attributes
+        public int roomNumber;
+        public string roomType;
+        public double pricePerNight;
+        public bool isAvailable;
+
+
+        // Method
+        public void displayRoom()
+        {
+            Console.WriteLine("Room Number:      "+roomNumber);
+            Console.WriteLine("Room Type:        "+roomType);
+            Console.WriteLine("Price Per Night:  "+pricePerNight);
+            Console.WriteLine("Room Availabilty: "+isAvailable);
+        }
+
+
+
+
+
+
+    }
+
+
+}
+
+
+
+
+
     internal class Program
     {
         static void Main(string[] args)
         {
+
+            List<Room> rooms = new List<Room>();
+
+
             bool exit = false;
             while (exit == false)
             {
