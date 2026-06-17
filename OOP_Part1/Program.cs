@@ -52,8 +52,7 @@ namespace OOP_Part1
             guestName = Name;  // save the guest name that entered by the user into the guestName attribute
             checkInDate = check_InDate;
             totalNights = total_Nights;
-
-            roomNumber = 0; // no room assigned yet , will book in case 03 , here just as default i do it 0
+            roomNumber=0;  // no room assigned yet , will book in case 03 , here just as default i do it 0 
 
         }
 
@@ -63,7 +62,7 @@ namespace OOP_Part1
         {
             Console.WriteLine("Guest ID:      " + guestId);
             Console.WriteLine("Guest name:    " + guestName);
-            Console.WriteLine("Room Number:   " + roomNumber);
+            Console.WriteLine(roomNumber == 0 ? "Room Number: Not Assigned": "Room Number: " + roomNumber);  // if ==0 will display " Not Assigned" , if there is a number will display (room number)
             Console.WriteLine("check-In Date: " + checkInDate);
             Console.WriteLine("totalNights:   " + totalNights);
 
@@ -167,11 +166,24 @@ namespace OOP_Part1
             Console.Write("number of nights:   ");
             int totalNights = int.Parse(Console.ReadLine());
 
+            if (totalNights <= 0)      // to validate the number should be more than 0 and should be positive
+            {
+                Console.WriteLine("number of nights must be positive and more than 0");
+                return;
+            }
             string guestId;
             guestId = "G" + (guests.Count + 1).ToString("D3"); // here to generate the ID + converted to string with at least 3 digits.   // Auto-generate the guest ID from the current size of the guests list.
 
            guests.Add(new Guest(guestId, guestName, checkInDate, totalNights));   // add guest object in guests list
 
+            Console.WriteLine("--- All Guest ---");
+            foreach (Guest g in guests) // 
+            {
+                g.displayGuest();  // display one guest at a time
+            }
+            Console.WriteLine("Total guests: " + guests.Count); // guest count
+
+            Console.WriteLine("Guest Added Successfully");
         }
 
 
