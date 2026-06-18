@@ -69,16 +69,11 @@ namespace OOP_Part1
         }
 
 
-
-
-        //    public void calculateTotalCost()
-        //    {
-
-
-
-
-        //    }
-
+        public void calculateTotalCost(double pricePerNight)
+        {
+            double totalCost = totalNights * pricePerNight;
+            Console.WriteLine("Total Cost: " + totalCost);
+        }
 
 
     }
@@ -186,7 +181,62 @@ namespace OOP_Part1
             Console.WriteLine("Guest Added Successfully");
         }
 
+        public static void BookGuest(List<Guest> guests, List<Room> rooms)  // here we use both lists
+        {
 
+            Console.Write("Enter Guest ID:   ");
+            string guestId = Console.ReadLine();
+
+
+            Console.Write("Enter Room number ");
+            int roomNumber = int.Parse(Console.ReadLine());
+
+
+            Guest guest = guests.FirstOrDefault(g => g.guestId == guestId);  // I use LINQ FirstOrDefault() to find a guest from the guests list by comparing the guest ID. The result is stored in the guest variable.
+
+            Room room = rooms.FirstOrDefault(r => r.roomNumber == roomNumber); // same above but for room 
+
+
+            if (guest == null)  // if the guest ID is null so there no guest yet or not found
+            {
+                Console.WriteLine("Guest not found");
+                return;
+            }
+           
+
+            if (room == null)
+            {
+                Console.WriteLine("Room not found");
+                return;
+            }
+
+
+
+            if (!room.isAvailable)
+            {
+                Console.WriteLine("Room is not available");
+                return;
+            }
+
+            guest.roomNumber = room.roomNumber;   // assign the room number to the guest's roomNumber field.
+
+            room.isAvailable = false; // to be the room not available already booked.
+
+
+
+            Console.WriteLine("Room booked successfully");
+            Console.WriteLine("---------------------------------");
+
+            Console.WriteLine("=== Booking Confirmation ===");
+            Console.WriteLine("Guest Name: " + guest.guestName);
+            Console.WriteLine("Room Number: " + room.roomNumber);
+            Console.WriteLine("Room Type: " + room.roomType);
+            Console.WriteLine("Price Per Night: " + room.pricePerNight);
+            Console.WriteLine("Total Nights: " + guest.totalNights);
+            guest.calculateTotalCost(room.pricePerNight);  
+
+
+        }
         static void Main(string[] args)
         {
 
@@ -227,11 +277,12 @@ namespace OOP_Part1
                         AddRoom(rooms);  // here to call function with list
                         break;
 
-                    case 2:    // Case 02 Register New Guest
+                    case 2:    // Case 02: Register New Guest
                         RegGuest(guests);
                         break;
 
-                    case 3:
+                    case 3:   // Case 03: Book a Room for a Guest
+                        BookGuest(guests, rooms);
                         break;
                     case 4:
                         break;
